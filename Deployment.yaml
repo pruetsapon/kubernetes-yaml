@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dotnet-api
+spec:
+  selector:
+    matchLabels:
+      app: dotnet-api
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: dotnet-api
+    spec:
+      imagePullSecrets:
+      - name: harbor
+      containers:
+      - name: dotnet-api
+        image: harbor.local/test/dotnet-api:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+        resources:
+          limits:
+            memory: 100Mi
+            cpu: 500m
+          requests:
+            memory: 20Mi
+            cpu: 200m
+      terminationGracePeriodSeconds: 2
+      tolerations:
+      - key: "node.kubernetes.io/unreachable"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 2
+      - key: "node.kubernetes.io/not-ready"
+        operator: "Exists"
+        effect: "NoExecute"
+        tolerationSeconds: 2
