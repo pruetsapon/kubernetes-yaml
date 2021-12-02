@@ -11,3 +11,6 @@ spec:
     port: 5000
     targetPort: 5000
   type: NodePort
+  clusterIP: 100.99.31.108
+  clusterIPs:
+  - 100.99.31.108
